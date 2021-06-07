@@ -1,0 +1,762 @@
+﻿<UserControl
+    x:Class="Degisn.MainView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
+    xmlns:local="clr-namespace:Degisn"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+    xmlns:view="clr-namespace:Degisn.Views"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+    <UserControl.Resources />
+    <Grid>
+        <Grid.Background>
+            <!--<ImageBrush ImageSource="back.jpg" />-->
+            <RadialGradientBrush>
+                <GradientStop Color="#FF032534" Offset="0"/>
+                <GradientStop Color="#FF051C26" Offset="0.5"/>
+                <GradientStop Color="#FF041F36" Offset="1"/>
+            </RadialGradientBrush>
+        </Grid.Background>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="70" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="3*" />
+            </Grid.ColumnDefinitions>
+            <Grid>
+                <Border
+                    BorderBrush="{StaticResource MainBrushLight}"
+                    BorderThickness="0,0,2,5"
+                    CornerRadius="0,0,140,0">
+                    <Border.Effect>
+                        <BlurEffect Radius="30" />
+                    </Border.Effect>
+                </Border>
+                <Border
+                    Background="{StaticResource MainBackgroundBrush}"
+                    BorderBrush="{StaticResource MainBorderBrush}"
+                    BorderThickness="0,0,2,4"
+                    CornerRadius="0,0,200,0">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="2*" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Margin="10,0,0,0" Orientation="Horizontal">
+                            <icon:PackIconMaterial
+                                Width="25"
+                                Height="25"
+                                Margin="10,0,0,0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                FontStretch="Medium"
+                                Foreground="White"
+                                Kind="GoogleChrome" />
+                            <TextBlock
+                                Margin="10,0,0,0"
+                                VerticalAlignment="Center"
+                                FontSize="16"
+                                FontWeight="Bold"
+                                Foreground="White"
+                                Text="西部电网"/>
+                        </StackPanel>
+
+                        <Line
+                            Width="7"
+                            Margin="15,25"
+                            HorizontalAlignment="Right"
+                            Stretch="Fill"
+                            Stroke="WhiteSmoke"
+                            StrokeThickness="2"
+                            X1="0.5"
+                            X2="0"
+                            Y1="0"
+                            Y2="1" />
+                        <TextBlock
+                            Grid.Column="1"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Effect="{StaticResource DropDown}"
+                            FontSize="22"
+                            FontStyle="Italic"
+                            FontWeight="Bold"
+                            Foreground="#C6F8FF"
+                            FontFamily="DengXian"
+                            Text="风 电 可 视 化 平 台"/>
+                        <TextBlock
+                            Grid.Column="1"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            FontSize="22"
+                            FontStyle="Italic"
+                            FontWeight="Bold"
+                            FontFamily="DengXian"
+                            Foreground="#C6F8FF"
+                            Text="风 电 可 视 化 平 台"/>
+                    </Grid>
+                </Border>
+            </Grid>
+
+            <Grid Grid.Column="1" Margin="0 0 0 5">
+                <Border Background="{StaticResource SecBackgroundBrush}" />
+                <Line
+                    Margin="-50,0,-5,0"
+                    VerticalAlignment="Bottom"
+                    Stretch="Fill"
+                    Stroke="{StaticResource SecBorderBrush}"
+                    StrokeThickness="2"
+                    Effect="{StaticResource DropDown}"
+                    X1="0"
+                    X2="1"
+                    Y1="0"
+                    Y2="0" />
+                <StackPanel
+                    Height="30"
+                    HorizontalAlignment="Right"
+                    Orientation="Horizontal">
+                    <TextBlock
+                        Margin="8,0"
+                        VerticalAlignment="Center"
+                        FontSize="30"
+                        FontWeight="Bold"
+                        Foreground="{StaticResource FontBrush}"
+                        Text="18:01" />
+                    <TextBlock
+                        Margin="8,0"
+                        VerticalAlignment="Bottom"
+                        FontSize="14"
+                        Foreground="{StaticResource FontBrush}"
+                        Text="2021.05.25" />
+                    <TextBlock
+                        Margin="4,0,30,0"
+                        VerticalAlignment="Bottom"
+                        FontSize="14"
+                        Foreground="{StaticResource FontBrush}"
+                        Text="星期二" />
+                </StackPanel>
+            </Grid>
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1.8*" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="100" />
+                    <RowDefinition />
+                    <RowDefinition Height="300" />
+                </Grid.RowDefinitions>
+
+                <!--模型区域-->
+                <Grid Grid.RowSpan="3" x:Name="AreaGrid" Margin="10 10 0 10">
+                    <view:HelixView Width="{Binding ElementName=AreaGrid,Path=ActualWidth}" Height="{Binding ElementName=AreaGrid,Path=ActualHeight}">
+                        <view:HelixView.Style>
+                            <Style TargetType="view:HelixView">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=OutsideView,Path=IsChecked}" Value="True">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding ElementName=OutsideView,Path=IsChecked}" Value="False">
+                                        <Setter Property="Visibility" Value="Hidden"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </view:HelixView.Style>
+                    </view:HelixView>
+                    <view:HelixOpacity Width="{Binding ElementName=AreaGrid,Path=ActualWidth}" Height="{Binding ElementName=AreaGrid,Path=ActualHeight}">
+                        <view:HelixOpacity.Style>
+                            <Style TargetType="view:HelixOpacity">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=InsideView,Path=IsChecked}" Value="True">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding ElementName=InsideView,Path=IsChecked}" Value="False">
+                                        <Setter Property="Visibility" Value="Hidden"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </view:HelixOpacity.Style>
+                    </view:HelixOpacity>
+                </Grid>
+
+                <Grid Width="800" HorizontalAlignment="Left">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*" />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal">
+                        <Grid Width="60" Height="60">
+                            <Ellipse Stroke="#450B643C" StrokeThickness="2" />
+                            <Ellipse RenderTransformOrigin="0.5,0.5" StrokeThickness="2">
+                                <Ellipse.Triggers>
+                                    <EventTrigger RoutedEvent="Loaded">
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation
+                                                    RepeatBehavior="Forever"
+                                                    Storyboard.TargetName="EllipsRotate"
+                                                    Storyboard.TargetProperty="Angle"
+                                                    From="0"
+                                                    To="360"
+                                                    Duration="0:0:1" />
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </EventTrigger>
+                                </Ellipse.Triggers>
+                                <Ellipse.RenderTransform>
+                                    <RotateTransform x:Name="EllipsRotate" Angle="45" />
+                                </Ellipse.RenderTransform>
+                                <Ellipse.Stroke>
+                                    <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                        <GradientStop Offset="0" Color="Transparent" />
+                                        <GradientStop Offset="0.3" Color="Transparent" />
+                                        <GradientStop Offset="1" Color="#FF14EC47" />
+                                    </LinearGradientBrush>
+                                </Ellipse.Stroke>
+                            </Ellipse>
+                            <Ellipse
+                                Margin="6"
+                                Stroke="{StaticResource AccentBrush}"
+                                StrokeThickness="3">
+                                <Ellipse.Fill>
+                                    <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                        <LinearGradientBrush.Transform>
+                                            <RotateTransform Angle="45" />
+                                        </LinearGradientBrush.Transform>
+                                        <GradientStop Offset="0" Color="#9902413A" />
+                                        <GradientStop Offset="1" Color="#6664F1E0" />
+                                        <GradientStop Offset="0.5" Color="#883EE9D5" />
+                                    </LinearGradientBrush>
+                                </Ellipse.Fill>
+                            </Ellipse>
+                            <icon:PackIconMaterial
+                                Width="30"
+                                Height="40"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Foreground="{StaticResource AccentBrush}"
+                                Kind="SonyPlaystation" />
+                        </Grid>
+                        <StackPanel Margin="10,0,0,0" VerticalAlignment="Center">
+                            <TextBlock
+                                FontSize="14"
+                                Foreground="{StaticResource FontBrush}"
+                                Text="风机状态" />
+                            <TextBlock
+                                Margin="0,5,0,0"
+                                FontSize="18"
+                                FontWeight="Bold"
+                                Foreground="{StaticResource AccentBrush}"
+                                Text="井网" />
+                        </StackPanel>
+                    </StackPanel>
+
+                    <StackPanel
+                        Grid.Column="1"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal">
+                        <icon:PackIconMaterial
+                            Width="18"
+                            Height="20"
+                            VerticalAlignment="Center"
+                            Foreground="#FF02DFDD"
+                            Kind="Map" />
+                        <StackPanel Margin="10,5,0,0" VerticalAlignment="Center">
+                            <TextBlock
+                                FontSize="14"
+                                Foreground="{StaticResource FontBrush}"
+                                Text="所属风场" />
+                            <TextBlock
+                                Margin="0,5,0,0"
+                                FontSize="18"
+                                FontWeight="Bold"
+                                Foreground="white"
+                                Text="PL风场" />
+                        </StackPanel>
+                    </StackPanel>
+
+                    <StackPanel
+                        Grid.Column="2"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal">
+                        <icon:PackIconMaterial
+                            Width="18"
+                            Height="20"
+                            VerticalAlignment="Center"
+                            Foreground="#FF02DFDD"
+                            Kind="Database" />
+                        <StackPanel Margin="10,5,0,0" VerticalAlignment="Center">
+                            <TextBlock
+                                FontSize="14"
+                                Foreground="{StaticResource FontBrush}"
+                                Text="风机编号" />
+                            <TextBlock
+                                Margin="0,5,0,0"
+                                FontSize="18"
+                                FontWeight="Bold"
+                                Foreground="white"
+                                Text="88号" />
+                        </StackPanel>
+                    </StackPanel>
+
+                    <StackPanel
+                        Grid.Column="3"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal">
+                        <icon:PackIconMaterial
+                            Width="18"
+                            Height="20"
+                            VerticalAlignment="Center"
+                            Foreground="#FF02DFDD"
+                            Kind="CalendarMonth" />
+                        <StackPanel Margin="10,5,0,0" VerticalAlignment="Center">
+                            <TextBlock
+                                FontSize="14"
+                                Foreground="{StaticResource FontBrush}"
+                                Text="风机型号" />
+                            <TextBlock
+                                Margin="0,5,0,0"
+                                FontSize="18"
+                                FontWeight="Bold"
+                                Foreground="white"
+                                Text="ABC-55" />
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+
+                <Grid Grid.Row="2">
+                    <DockPanel LastChildFill="False">
+                        <Grid Width="220" DockPanel.Dock="Left">
+                            <StackPanel Margin="100,0,0,30" VerticalAlignment="Bottom">
+                                <RadioButton
+                                    x:Name="InsideView"
+                                    Height="30"
+                                    Margin="0,0,0,20"
+                                    Content="外部视图"
+                                    IsChecked="True"
+                                    Style="{StaticResource SwithViewButton}" />
+                                <RadioButton
+                                    x:Name="OutsideView"
+                                    Height="30"
+                                    Content="内部视图"
+                                    Style="{StaticResource SwithViewButton}" />
+                            </StackPanel>
+                        </Grid>
+
+                        <Grid
+                            Width="200"
+                            Margin="0,0,0,30"
+                            VerticalAlignment="Bottom"
+                            DockPanel.Dock="Right">
+                            <StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <icon:PackIconMaterial
+                                        Width="50"
+                                        Height="50"
+                                        Foreground="WhiteSmoke"
+                                        Kind="Gauge" />
+                                    <TextBlock
+                                        Margin="15,0"
+                                        VerticalAlignment="Bottom"
+                                        FontSize="18"
+                                        FontWeight="Bold"
+                                        Foreground="White"
+                                        Text="部件A" />
+                                </StackPanel>
+                                <StackPanel Margin="0,20,0,10" Orientation="Horizontal">
+                                    <TextBlock
+                                        VerticalAlignment="Bottom"
+                                        Margin="0 0 0 2"
+                                        FontSize="14"
+                                        Foreground="WhiteSmoke"
+                                        Text="轮毂重量" Width="55"/>
+                                    <TextBlock
+                                        Margin="20,0,0,0"
+                                        VerticalAlignment="Bottom"
+                                        FontSize="20"
+                                        FontWeight="Bold"
+                                        Foreground="White"
+                                        Text="12000" Width="80"/>
+                                    <TextBlock
+                                        Margin="10,0"
+                                        VerticalAlignment="Center"
+                                        FontSize="14"
+                                        Foreground="WhiteSmoke"
+                                        Text="KG" />
+                                </StackPanel>
+                                <StackPanel Margin="0,5" Orientation="Horizontal">
+                                    <TextBlock
+                                        VerticalAlignment="Bottom"
+                                        Margin="0 0 0 2"
+                                        FontSize="14"
+                                        Foreground="WhiteSmoke"
+                                        Text="轮毂质量" Width="55"/>
+                                    <TextBlock
+                                        Margin="20,0,0,0"
+                                        VerticalAlignment="Bottom"
+                                        FontSize="20"
+                                        FontWeight="Bold"
+                                        Foreground="White"
+                                        Text="80" Width="80"/>
+                                    <TextBlock
+                                        Margin="10,0"
+                                        VerticalAlignment="Center"
+                                        FontSize="14"
+                                        Foreground="WhiteSmoke"
+                                        Text="M" />
+                                </StackPanel>
+                                <StackPanel Margin="0,5" Orientation="Horizontal">
+                                    <TextBlock
+                                        VerticalAlignment="Bottom"
+                                        Margin="0 0 0 2"
+                                        FontSize="14"
+                                        Foreground="WhiteSmoke"
+                                        Text="轮毂比例" Width="55"/>
+                                    <TextBlock
+                                        Margin="20,0,0,0"
+                                        VerticalAlignment="Bottom"
+                                        FontSize="20"
+                                        FontWeight="Bold"
+                                        Foreground="White"
+                                        Text="0.05" Width="80"/>
+                                    <TextBlock
+                                        Margin="10,0"
+                                        VerticalAlignment="Center"
+                                        FontSize="14"
+                                        Foreground="WhiteSmoke"
+                                        Text="M" />
+                                </StackPanel>
+                                <StackPanel Margin="0,5" Orientation="Horizontal">
+                                    <TextBlock
+                                        VerticalAlignment="Bottom"
+                                        Margin="0 0 0 2"
+                                        FontSize="14"
+                                        Foreground="WhiteSmoke"
+                                        Text="轮毂重" Width="55"/>
+                                    <TextBlock
+                                        Margin="20,0,0,0"
+                                        VerticalAlignment="Bottom"
+                                        FontSize="20"
+                                        FontWeight="Bold"
+                                        Foreground="White"
+                                        Text="0.58" Width="80"/>
+                                    <TextBlock
+                                        Margin="10,0"
+                                        VerticalAlignment="Center"
+                                        FontSize="14"
+                                        Foreground="WhiteSmoke"
+                                        Text="/" />
+                                </StackPanel>
+                            </StackPanel>
+                        </Grid>
+                    </DockPanel>
+                </Grid>
+
+
+            </Grid>
+
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <Border
+                    Margin="10"
+                    Background="{StaticResource BackSolidBrush}"
+                    BorderBrush="{StaticResource MainBorderBrush}"
+                    BorderThickness="0,3,0,3">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="50" />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="2.2*" />
+                            </Grid.ColumnDefinitions>
+                            <Path
+                                Margin="5"
+                                Data="M60,0 L66,0 66,10 60,10 60,10 49,10 45,10 0.39814758,10 0,9 45,9 45,8 60,8 z"
+                                Fill="{StaticResource SignBrush}"
+                                RenderTransformOrigin="0.801095861368002,0.899999957084658"
+                                Stretch="Fill">
+                                <Path.RenderTransform>
+                                    <TransformGroup>
+                                        <ScaleTransform />
+                                        <SkewTransform AngleX="-38.53" />
+                                        <RotateTransform />
+                                        <TranslateTransform X="6.37" />
+                                    </TransformGroup>
+                                </Path.RenderTransform>
+                            </Path>
+                            <TextBlock
+                                Margin="20,10,0,0"
+                                FontSize="20"
+                                FontWeight="Bold"
+                                Effect="{StaticResource DropDown}"
+                                Foreground="{StaticResource FontBrush}"
+                                Text="风机实时信息"/>
+
+                        </Grid>
+
+                        <Grid Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Margin="20,10" VerticalAlignment="Center">
+                                <StackPanel.Triggers>
+                                    <EventTrigger RoutedEvent="Loaded">
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Duration="0:0:3" From="0" To="100" Storyboard.TargetProperty="Value" Storyboard.TargetName="Progress1" RepeatBehavior="Forever"/>
+                                                <DoubleAnimation BeginTime="0:0:1" Duration="0:0:3" From="0" To="100" Storyboard.TargetProperty="Value" Storyboard.TargetName="Progress2" RepeatBehavior="Forever"/>
+                                                <DoubleAnimation BeginTime="0:0:2" Duration="0:0:3" From="0" To="100" Storyboard.TargetProperty="Value" Storyboard.TargetName="Progress3" RepeatBehavior="Forever"/>
+                                                <DoubleAnimation BeginTime="0:0:3" Duration="0:0:3" From="0" To="100" Storyboard.TargetProperty="Value" Storyboard.TargetName="Progress4" RepeatBehavior="Forever"/>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </EventTrigger>
+                                </StackPanel.Triggers>
+                                <TextBlock
+                                    FontSize="15"
+                                    FontWeight="Bold"
+                                    Foreground="White"
+                                    Text="实时风速" />
+                                <ProgressBar
+                                    x:Name="Progress1"
+                                    Height="15"
+                                    Margin="0,10,0,30"
+                                    BorderThickness="0"
+                                    Foreground="#FF059F78"
+                                    SnapsToDevicePixels="True"
+                                    Style="{DynamicResource ProgressBarStyle1}"
+                                    Value="15" />
+                                <TextBlock
+                                    FontSize="15"
+                                    FontWeight="Bold"
+                                    Foreground="White"
+                                    Text="环境温度" />
+                                <ProgressBar
+                                    x:Name="Progress2"
+                                    Height="15"
+                                    Margin="0,10,0,30"
+                                    BorderThickness="0"
+                                    Foreground="{StaticResource AccentBrush}"
+                                    SnapsToDevicePixels="True"
+                                    Style="{DynamicResource ProgressBarStyle1}"
+                                    Value="25" />
+                                <TextBlock
+                                    FontSize="15"
+                                    FontWeight="Bold"
+                                    Foreground="White"
+                                    Text="机舱温度" />
+                                <ProgressBar
+                                    x:Name="Progress3"
+                                    Height="15"
+                                    Margin="0,10,0,30"
+                                    BorderThickness="0"
+                                    Foreground="#FFD6AF27"
+                                    SnapsToDevicePixels="True"
+                                    Style="{DynamicResource ProgressBarStyle1}"
+                                    Value="50" />
+                                <TextBlock
+                                    FontSize="15"
+                                    FontWeight="Bold"
+                                    Foreground="White"
+                                    Text="实时风速" />
+                                <ProgressBar
+                                    x:Name="Progress4"
+                                    Height="15"
+                                    Margin="0,10,0,30"
+                                    BorderThickness="0"
+                                    Foreground="IndianRed"
+                                    SnapsToDevicePixels="True"
+                                    Style="{DynamicResource ProgressBarStyle1}"
+                                    Value="95" />
+                            </StackPanel>
+
+                            <Grid Grid.Column="1">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition Height="100"/>
+                                </Grid.RowDefinitions>
+
+                                <Grid Width="180" Height="180">
+                                    <Ellipse StrokeDashArray="0.2 1.3" Stroke="{StaticResource MainBrush}" StrokeThickness="10"/>
+                                    <Ellipse Stroke="{StaticResource MainBorderBrush}" Fill="{StaticResource BackSolidBrush}" StrokeThickness="3" Margin="15"/>
+
+                                    <Grid Width="80" Height="80" RenderTransformOrigin="0.5,0.5">
+                                        <Grid.RenderTransform>
+                                            <RotateTransform x:Name="PointRotate" Angle="45"/>
+                                        </Grid.RenderTransform>
+                                        <Grid.Triggers>
+                                            <EventTrigger RoutedEvent="Loaded">
+                                                <BeginStoryboard>
+                                                    <Storyboard>
+                                                        <DoubleAnimation RepeatBehavior="Forever" Duration="0:0:10" From="0" To="360" Storyboard.TargetName="PointRotate" Storyboard.TargetProperty="Angle"/>
+                                                    </Storyboard>
+                                                </BeginStoryboard>
+                                            </EventTrigger>
+                                        </Grid.Triggers>
+                                        <Line X1="0" Y1="0" X2="0" Y2="1" Stretch="Fill" Stroke="{StaticResource FontBrush}" StrokeThickness="3" Margin="0 18 0 0"/>
+                                        <Ellipse Margin="28" Stroke="{StaticResource SecBorderBrush}" StrokeThickness="3" Fill="#022926"/>
+                                    </Grid>
+                                </Grid>
+                                <StackPanel Grid.Row="1"  Margin="50 0">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Ellipse Width="8" Height="8" Fill="{StaticResource GreenBrush}" Effect="{StaticResource DropDown}" VerticalAlignment="Center"/>
+                                        <TextBlock Text="当前风向" Foreground="White" Margin="5 0" FontSize="14" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                    <TextBlock Text="80" Foreground="White" FontSize="35" FontWeight="Bold" Margin="15 0 0 0"/>
+                                </StackPanel>
+
+                                <StackPanel Grid.Row="1" HorizontalAlignment="Right" Margin="50 0">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Ellipse Width="8" Height="8" Fill="{StaticResource GreenBrush}" Effect="{StaticResource DropDown}" VerticalAlignment="Center"/>
+                                        <TextBlock Text="对风误差" Foreground="White" Margin="5 0" FontSize="14" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                    <TextBlock Text="2.3" Foreground="White" FontSize="35" FontWeight="Bold" Margin="15 0 0 0"/>
+                                </StackPanel>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+
+                </Border>
+
+                <Border
+                    Grid.Row="1"
+                    Margin="10"
+                    Background="{StaticResource BackSolidBrush}"
+                    BorderBrush="{StaticResource MainBorderBrush}"
+                    BorderThickness="0,3,0,3">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="50" />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="2.2*" />
+                            </Grid.ColumnDefinitions>
+                            <Path
+                                Margin="5"
+                                Data="M60,0 L66,0 66,10 60,10 60,10 49,10 45,10 0.39814758,10 0,9 45,9 45,8 60,8 z"
+                                Fill="{StaticResource SignBrush}"
+                                RenderTransformOrigin="0.801095861368002,0.899999957084658"
+                                Stretch="Fill">
+                                <Path.RenderTransform>
+                                    <TransformGroup>
+                                        <ScaleTransform />
+                                        <SkewTransform AngleX="-38.53" />
+                                        <RotateTransform />
+                                        <TranslateTransform X="6.37" />
+                                    </TransformGroup>
+                                </Path.RenderTransform>
+                            </Path>
+                            <TextBlock
+                                Margin="20,10,0,0"
+                                Effect="{StaticResource DropDown}"
+                                FontSize="20"
+                                FontWeight="Bold"
+                                Foreground="{StaticResource FontBrush}"
+                                Text="风机统计信息" />
+                        </Grid>
+
+                        <Grid Grid.Row="1">
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition Height="2*"/>
+                            </Grid.RowDefinitions>
+                            <UniformGrid Columns="4">
+                                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Ellipse Width="8" Height="8" Fill="{StaticResource GreenBrush}" Effect="{StaticResource DropDown}" VerticalAlignment="Center"/>
+                                        <TextBlock Text="总发电量" Foreground="White" Margin="5 0" FontSize="14" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="80" Foreground="White" FontSize="35" FontWeight="Bold" Margin="15 0 0 0"/>
+                                        <TextBlock Text="KW" Foreground="White" VerticalAlignment="Bottom" Margin="5 0 0 5"/>
+                                    </StackPanel>
+                                </StackPanel>
+
+                                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Ellipse Width="8" Height="8" Fill="{StaticResource GreenBrush}" Effect="{StaticResource DropDown}" VerticalAlignment="Center"/>
+                                        <TextBlock Text="年发电量" Foreground="White" Margin="5 0" FontSize="14" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="8.3" Foreground="White" FontSize="35" FontWeight="Bold" Margin="15 0 0 0"/>
+                                        <TextBlock Text="KW" Foreground="White" VerticalAlignment="Bottom" Margin="5 0 0 5"/>
+                                    </StackPanel>
+                                </StackPanel>
+
+                                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Ellipse Width="8" Height="8" Fill="{StaticResource GreenBrush}" Effect="{StaticResource DropDown}" VerticalAlignment="Center"/>
+                                        <TextBlock Text="月发电量" Foreground="White" Margin="5 0" FontSize="14" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="21.3" Foreground="White" FontSize="35" FontWeight="Bold" Margin="15 0 0 0"/>
+                                        <TextBlock Text="KW" Foreground="White" VerticalAlignment="Bottom" Margin="5 0 0 5"/>
+                                    </StackPanel>
+                                </StackPanel>
+
+                                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Ellipse Width="8" Height="8" Fill="{StaticResource GreenBrush}" Effect="{StaticResource DropDown}" VerticalAlignment="Center"/>
+                                        <TextBlock Text="日发电量" Foreground="White" Margin="5 0" FontSize="14" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="12.3" Foreground="White" FontSize="35" FontWeight="Bold" Margin="15 0 0 0"/>
+                                        <TextBlock Text="KW" Foreground="White" VerticalAlignment="Bottom" Margin="5 0 0 5"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </UniformGrid>
+                            <Grid Grid.Row="1">
+                                <DockPanel VerticalAlignment="Top" Margin="10 0">
+                                    <Ellipse DockPanel.Dock="Left" Effect="{StaticResource DropDown}" Fill="{StaticResource AccentBrush}" Width="10" Height="10" StrokeThickness="2" Stroke="{StaticResource SecBorderBrush}"/>
+                                    <TextBlock Text="统计数据" Foreground="White" Margin="10 0 0 0" FontSize="14"/>
+                                    <Ellipse Width="8" DockPanel.Dock="Right" Height="8" Fill="{StaticResource AccentBrush}" Effect="{StaticResource DropDown}" Margin="-5 0 0 0"/>
+                                    <Line X1="0" Y1="0" X2="1" Y2="0" Stroke="{StaticResource MainBorderBrush}" Stretch="Fill" Margin="15 0 0 0" StrokeThickness="1"/>
+                                </DockPanel>
+
+                                <Grid Margin="10 20 10 5">
+                                    <lvc:CartesianChart DisableAnimations="True" Series="{Binding SeriesCollection}" LegendLocation="None" >
+                                        <lvc:CartesianChart.AxisY>
+                                            <lvc:Axis LabelFormatter="{Binding YFormatter}" LabelsRotation="45"></lvc:Axis>
+                                        </lvc:CartesianChart.AxisY>
+                                        <lvc:CartesianChart.AxisX>
+                                            <lvc:Axis></lvc:Axis>
+                                        </lvc:CartesianChart.AxisX>
+                                    </lvc:CartesianChart>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

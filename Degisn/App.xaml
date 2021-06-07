@@ -1,0 +1,24 @@
+﻿<Application
+    x:Class="Degisn.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:Degisn"
+    StartupUri="MainWindow.xaml"
+    >
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Dictionary1.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <FontFamily x:Key="ZiYuan">
+                pack://application:,,,/Degisn;component/#Resource Han Rounded CN Medium
+            </FontFamily>
+
+            <Style TargetType="TextBlock">
+                <Setter Property="FontFamily" Value="{StaticResource ZiYuan}"/>
+                <Setter Property="Foreground" Value="WhiteSmoke"/>
+            </Style>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
